@@ -1,28 +1,28 @@
 # Use Eclipse Temurin Java 21 JDK
 FROM eclipse-temurin:21-jdk
 
-# Set working directory inside container
+# Set working directory
 WORKDIR /app
 
-# Copy Maven wrapper and pom.xml first (for dependency caching)
+# Copy Maven wrapper and pom.xml first (for caching)
 COPY pom.xml mvnw ./
 COPY .mvn .mvn
 
-# Make mvnw executable
+# Make Maven wrapper executable
 RUN chmod +x mvnw
 
-# Download dependencies (cached layer)
+# Download dependencies
 RUN ./mvnw dependency:go-offline
 
 # Copy source code
 COPY src src
 
-# Build Spring Boot JAR (skip tests for faster build)
+# Build JAR (skip tests for faster build)
 RUN ./mvnw clean package -DskipTests
 
-# Expose dynamic port (Render sets PORT env)
+# Expose port (Render will set PORT environment variable)
 ENV PORT 8080
 EXPOSE 8080
 
-# Run the built JAR
+# Run the JAR
 CMD ["java", "-jar", "target/expensemanager1-0.0.1-SNAPSHOT.jar"]
