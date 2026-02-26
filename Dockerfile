@@ -4,7 +4,7 @@ FROM eclipse-temurin:21-jdk
 # Set working directory inside container
 WORKDIR /app
 
-# Copy Maven wrapper and pom.xml first (for caching dependencies)
+# Copy Maven wrapper and pom.xml first (for dependency caching)
 COPY pom.xml mvnw ./
 COPY .mvn .mvn
 
@@ -17,12 +17,12 @@ RUN ./mvnw dependency:go-offline
 # Copy source code
 COPY src src
 
-# Build the Spring Boot JAR (skip tests for faster build)
+# Build Spring Boot JAR (skip tests for faster build)
 RUN ./mvnw clean package -DskipTests
 
-# Expose port dynamically (Render sets PORT environment variable)
+# Expose dynamic port (Render sets PORT env)
 ENV PORT 8080
 EXPOSE 8080
 
-# Run the JAR
+# Run the built JAR
 CMD ["java", "-jar", "target/expensemanager1-0.0.1-SNAPSHOT.jar"]
