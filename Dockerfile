@@ -1,21 +1,28 @@
-# Use Eclipse Temurin Java 21
+# Use Eclipse Temurin Java 21 JDK
 FROM eclipse-temurin:21-jdk
 
-# Set working directory
+# Set working directory inside container
 WORKDIR /app
 
-# Copy Maven wrapper and pom.xml first for caching
+# Copy Maven wrapper and pom.xml first (for caching dependencies)
 COPY pom.xml mvnw ./
 COPY .mvn .mvn
 
-# Download dependencies (this layer will be cached)
+# Make mvnw executable
+RUN chmod +x mvnw
+
+# Download dependencies (cached layer)
 RUN ./mvnw dependency:go-offline
 
-# Copy the rest of the project
+# Copy source code
 COPY src src
 
-# Build the JAR inside the Docker image
+# Build the Spring Boot JAR (skip tests for faster build)
 RUN ./mvnw clean package -DskipTests
 
-# The JAR is in target/
+# Expose port dynamically (Render sets PORT environment variable)
+ENV PORT 8080
+EXPOSE 8080
+
+# Run the JAR
 CMD ["java", "-jar", "target/expensemanager1-0.0.1-SNAPSHOT.jar"]
