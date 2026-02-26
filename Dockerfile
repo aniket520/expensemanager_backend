@@ -1,15 +1,14 @@
-# Use official OpenJDK 17 image
-FROM openjdk:17-jdk-alpine
+# Use official OpenJDK 21 slim image
+FROM openjdk:21-jdk-slim
 
-# Set working directory inside container
+# Set working directory
 WORKDIR /app
 
-# Copy the JAR file into the container
+# Copy your built JAR
 COPY target/expensemanager1-0.0.1-SNAPSHOT.jar app.jar
 
-# Expose port 8080 (backend port)
+# Expose port (Render will provide PORT)
 EXPOSE 8080
 
-# Run the JAR file
-ENTRYPOINT ["java","-jar","app.jar"]
-
+# Run the app
+CMD ["java", "-jar", "app.jar"]
