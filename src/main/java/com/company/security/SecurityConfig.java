@@ -63,7 +63,7 @@ public class SecurityConfig {
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration config = new CorsConfiguration();
-        config.setAllowedOrigins(List.of("http://localhost:5173"));
+        config.setAllowedOrigins(List.of("https://expensemanagerfrontend-aniket.vercel.app"));
         config.setAllowedMethods(List.of("GET","POST","PUT","DELETE"));
         config.setAllowedHeaders(List.of("*"));
         config.setAllowCredentials(true);
@@ -72,4 +72,5 @@ public class SecurityConfig {
         source.registerCorsConfiguration("/**", config);
         return source;
     }
+
 }
