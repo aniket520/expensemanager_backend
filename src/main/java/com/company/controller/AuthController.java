@@ -27,7 +27,7 @@ import com.company.service.UserService;
 
 
 @RestController
-@CrossOrigin(origins = "http://localhost:5173")
+@CrossOrigin(origins = "*")
 
 @RequestMapping("/api/auth")
 public class AuthController {
@@ -117,5 +117,6 @@ public class AuthController {
                     .body("Login failed: " + e.getMessage());
         }}}
     
+
 
 
