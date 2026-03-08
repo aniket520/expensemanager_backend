@@ -16,7 +16,7 @@ import jakarta.validation.Valid;
 
 @RestController
 @RequestMapping("/api/expenses")
-@CrossOrigin(origins = "http://localhost:5173")
+@CrossOrigin(origins = "*")
 public class ExpenseController {
 
     private final ExpenseService expenseService;
@@ -118,4 +118,5 @@ public class ExpenseController {
         Pageable pageable = PageRequest.of(page, size, Sort.by("expenseDate").descending());
         return expenseService.filterByAmount(min, max, pageable);
     }
+
 }
